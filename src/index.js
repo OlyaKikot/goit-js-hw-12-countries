@@ -3,34 +3,31 @@ import {
   defaultModules,
 } from '../node_modules/@pnotify/core/dist/PNotify.js';
 import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
-import { defaults } from '@pnotify/core';
-defaults.hide = true;
-defaults.delay = 3000;
-defaults.type = 'error';
-defaults.minHeight = '130px';
-defaults.styling = 'material';
-defaults.mode = 'dark';
-defaults.icon = true;
-defaults.shadow = false;
+
+import '@pnotify/core/dist/BrightTheme.css';
 
 import createCountriesMarkup from '../src/templates/example.hbs';
 import fetchCountries from './fetchCountries';
 var _ = require('lodash');
-
 const refs = {
   input: document.querySelector('#inputText'),
   countriesList: document.querySelector('#CountriesList'),
 };
 
 refs.input.addEventListener('keydown', _.debounce(createCountries, 500));
-function createCountries(searchQuery) {
-  const nameCounties = searchQuery.target.value;
 
-  fetchCountries(nameCounties).then(renderMarkup);
+function createCountries(searchQuery) {
+  let nameCounties = searchQuery.target.value;
+  fetchCountries(nameCounties).then(renderMarkup).catch(onError);
+}
+
+function onError(error) {
+  console.log(error);
 }
 
 function renderMarkup(countries) {
   let countriesHTML = '';
+  refs.countriesList.innerHTML = '';
 
   if (countries.length < 2) {
     countriesHTML = countries
@@ -43,8 +40,13 @@ function renderMarkup(countries) {
   } else {
     defaultModules.set(PNotifyMobile, {});
     alert({
-      text: 'Извените, поиск не дал результатов, попробуйте снова!',
+      text: 'Пожалуйста, уточните критерии поиска',
+      type: 'error',
+      maxTextHeight: '200px',
+      hide: true,
+      delay: 3000,
+      minHeight: '100px',
     });
   }
-  refs.countriesList.insertAdjacentHTML('afterend', countriesHTML);
+  refs.countriesList.insertAdjacentHTML('beforeend', countriesHTML);
 }

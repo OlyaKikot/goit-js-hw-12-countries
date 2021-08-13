@@ -10,6 +10,7 @@
     crossorigin="anonymous" />
   <link href="../node_modules/@pnotify/core/dist/PNotify.css" rel="stylesheet" type="text/css" />
 <link href="../node_modules/@pnotify/mobile/dist/PNotifyMobile.css" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body>
@@ -18,14 +19,27 @@
       height: 100px;
       width: auto;
     }
+    .container{
+      margin-top: 30px;
+      margin-left:300px;
+    }
+    input{
+      min-width:400px;
+      min-height:70px;
+     border: 3px solid red;
+     border-radius: 10px;
+     font-size: 30px;
+    }
+    ul{
+      padding:0;
+
+    }
   </style>
-  <input type="text" id="inputText">
+  <div class='container'>
+  <input  type="text" id="inputText" placeholder="Введите название страны">
   <ul id="CountriesList"></ul>
+  </div>
 
-  <!-- Так добавляются фрагменты в главные HTML-файлы страниц. -->
-  <!-- <include src="./partials/example.html"></include> -->
-
-  <!-- Скрипт идёт последним в разметке. В нём уже подключен главный SASS-файл. -->
   <script src="./index.js" ></script>
 </body>
 
